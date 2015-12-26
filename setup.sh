@@ -11,27 +11,9 @@ safecreate () {
     fi
 }
 
+cp -n pgxntool/_.gitignore .gitignore
+
 safecreate Makefile include pgxntool/base.mk
-safecreate .gitignore '.*.swp # Vi swap files
-
-# Compiler output
-*.o
-*.so
-.deps/
-
-# built targets
-/sql/*--*
-!/sql/*--*--*.sql
-
-# Test artifacts
-results/
-regression.diffs
-regression.out
-
-# Misc
-tmp/
-.DS_Store
-'
 
 mkdir -p sql test src
 
