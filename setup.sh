@@ -29,4 +29,9 @@ ln -s ../pgxntool/test/pgxntool .
 git add pgxntool
 
 echo "If you won't be creating C code then you should:
-rmdir src"
+
+rmdir src
+
+If everything looks good then
+
+git commit -am 'Initial commit'"
