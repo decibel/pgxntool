@@ -3,12 +3,12 @@
 set -o errexit -o errtrace -o pipefail
 trap 'echo "Error on line ${LINENO}"' ERR
 
-[ -x .git ] || git init
+[ -d .git ] || git init
 
 safecreate () {
     file=$1
     shift
-    if [ -x $file ]; then
+    if [ -e $file ]; then
         echo "$file already exists"
     else
         echo "Creating $file"
@@ -21,7 +21,7 @@ safecp () {
     [ $# -eq 2 ] || exit 1
     local src=$1
     local dest=$2
-    if [ -x $dest ]; then
+    if [ -e $dest ]; then
         echo $dest already exists
     else
         echo Copying $src to $dest and adding to git
