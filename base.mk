@@ -40,6 +40,7 @@ $$(EXTENSION_$(1)_VERSION_FILE): sql/$(1).sql META.json
 	cp $$< $$@
 endef
 $(foreach ext,$(EXTENSIONS),$(eval $(call extension--version_rule,$(ext))))
+# TODO: Add support for creating .control files
 #$(foreach ext,$(EXTENSIONS),$(info $(call extension--version_rule,$(ext))))
 
 DATA         = $(filter-out $(wildcard sql/*-*-*.sql),$(wildcard sql/*.sql))
@@ -79,6 +80,14 @@ DATA += $(wildcard *.control)
 # Don't have installcheck bomb on error
 .IGNORE: installcheck
 
+#
+# META.json
+#
+
+META.json: META.in.json
+	./build_meta.sh $$< $$@
+distclean:
+	rm -f META.json
 #
 # pgtap
 #
