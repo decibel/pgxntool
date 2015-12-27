@@ -1,6 +1,9 @@
 # Editor files
 .*.swp
 
+# Explicitly exclude META.json!
+!/META.json
+
 # Compiler output
 *.o
 *.so
