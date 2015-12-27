@@ -38,7 +38,7 @@ mkdir -p sql test src
 
 cd test
 safecreate deps.sql '-- Add any test dependency statements here'
-ln -s ../pgxntool/test/pgxntool .
+[ -d pgxntool ] || ln -s ../pgxntool/test/pgxntool .
 git add pgxntool
 
 echo "If you won't be creating C code then you should:
