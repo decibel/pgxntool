@@ -1,6 +1,7 @@
 #!/bin/sh
 
-set -e
+set -o errexit -o errtrace -o pipefail
+trap 'echo "Error on line ${LINENO}"' ERR
 
 [ -x .git ] || git init
 
@@ -16,8 +17,20 @@ safecreate () {
     fi
 }
 
-cp -n pgxntool/_.gitignore .gitignore
-git add .gitignore
+safecp () {
+    [ $# -eq 2 ] || exit 1
+    local src=$1
+    local dest=$2
+    if [ -x $dest ]; then
+        echo $dest already exists
+    else
+        echo Copying $src to $dest and adding to git
+        cp $src $dest
+        git add $dest
+    fi
+}
+
+safecp pgxntool/_.gitignore .gitignore
 
 safecreate Makefile include pgxntool/base.mk
 
