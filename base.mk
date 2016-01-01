@@ -39,7 +39,7 @@ EXTENSION_VERSION_FILES		+= $$(EXTENSION_$(1)_VERSION_FILE)
 $$(EXTENSION_$(1)_VERSION_FILE): sql/$(1).sql META.json
 	cp $$< $$@
 endef
-$(foreach ext,$(EXTENSIONS),$(eval $(call extension--version_rule,$(ext))))
+$(foreach ext,$(EXTENSIONS),$(eval $(call extension--version_rule,$(ext)))): META.json
 # TODO: Add support for creating .control files
 #$(foreach ext,$(EXTENSIONS),$(info $(call extension--version_rule,$(ext))))
 
@@ -83,9 +83,8 @@ DATA += $(wildcard *.control)
 #
 # META.json
 #
-
 META.json: META.in.json
-	./build_meta.sh $$< $$@
+	./build_meta.sh $< $@
 distclean:
 	rm -f META.json
 #
