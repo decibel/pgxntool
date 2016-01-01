@@ -47,4 +47,4 @@ rmdir src
 
 If everything looks good then
 
-git commit -am 'Initial commit'"
+git commit -am 'Add pgxntool (https://github.com/decibel/pgxntool/tree/release)'"
