@@ -105,7 +105,7 @@
     "X_comment": "Unusual. \"no_index\": Files/directories that should not be indexed. http://pgxn.org/spec/#no_index",
     "no_index": "",
 
-    "X_comment": "Unusual. Package/tool used to generate this file."
+    "X_comment": "Unusual. Package/tool used to generate this file.",
     "generated_by": "pgxntool https://github.com/decibel/pgxntool",
 
     "X_comment": "REQUIRED. Version info for this file. http://pgxn.org/spec/#meta-spec",
