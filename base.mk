@@ -20,8 +20,8 @@ META_extversion	= $(call META_parse,provides$(json_sep)$(1)$(json_sep)version)
 PGXNTOOL_DIR := pgxntool
 JSON_SH := $(PGXNTOOL_DIR)/JSON.sh
 
-PGXN		:= $(call META_parse,name)
-PGXNVERSION	:= $(call META_parse,version)
+PGXN		= $(call META_parse,name)
+PGXNVERSION	= $(call META_parse,version)
 
 # Get list of all extensions defined in META.json
 # The second argument first expands to 'provides","[^"]*', which after
@@ -30,7 +30,7 @@ PGXNVERSION	:= $(call META_parse,version)
 #
 # This ultimately has the effect of finding every key name under the provides
 # object in META.json.
-EXTENSIONS	:= $(call META_parse2,provides$(json_sep)[^$(dquote)]*,-d\$(dquote) -f4)
+EXTENSIONS	= $(call META_parse2,provides$(json_sep)[^$(dquote)]*,-d\$(dquote) -f4)
 
 define extension--version_rule
 EXTENSION_$(1)_VERSION		:= $(call META_extversion,$(1))
