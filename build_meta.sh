@@ -31,4 +31,4 @@ _PRE_
 # This is to strip things like '"key": "",' and '"key": [ "", "" ]'.
 #
 # NOTE! We intentionally don't match ': ""', to support '"X_end": ""'
-tail -n +1 $in | egrep -v ':\s*(\[\s*)?""\s*,' >> $out
+tail -n +2 $in | egrep -v ':\s*(\[\s*)?""\s*,' >> $out
