@@ -34,6 +34,7 @@ safecp pgxntool/_.gitignore .gitignore
 safecp pgxntool/META.in.json META.in.json
 
 safecreate Makefile include pgxntool/base.mk
+make META.json
 
 mkdir -p sql test src
 

@@ -87,7 +87,7 @@ DATA += $(wildcard *.control)
 # META.json
 #
 META.json: META.in.json
-	./build_meta.sh $< $@
+	pgxntool/build_meta.sh $< $@
 distclean:
 	rm -f META.json
 #
