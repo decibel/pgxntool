@@ -45,6 +45,9 @@ $(foreach ext,$(EXTENSIONS),$(eval $(call extension--version_rule,$(ext)))): MET
 
 DATA         = $(filter-out $(wildcard sql/*-*-*.sql),$(wildcard sql/*.sql))
 DOCS         = $(wildcard doc/*.asc)
+ifeq ($(strip $(DOCS)),)
+DOCS =# Set to NUL so PGXS doesn't puke
+endif
 TESTS        = $(wildcard test/sql/*.sql)
 REGRESS      = $(patsubst test/sql/%.sql,%,$(TESTS))
 REGRESS_OPTS = --inputdir=test --load-language=plpgsql
@@ -140,7 +143,7 @@ list:
 	sh -c "$(MAKE) -p no_targets__ | awk -F':' '/^[a-zA-Z0-9][^\$$#\/\\t=]*:([^=]|$$)/ {split(\$$1,A,/ /);for(i in A)print A[i]}' | grep -v '__\$$' | sort"
 
 # To use this, do make print-VARIABLE_NAME
-print-%	: ; $(info $* is [${$*}])@echo -n
+print-%	: ; $(info $* is $(flavor ${$*}) variable set to [${$*}])@echo -n
 
 #
 # subtree sync support
@@ -149,11 +152,14 @@ print-%	: ; $(info $* is [${$*}])@echo -n
 # variables. pgxntool-sync-release is an example of this.
 .PHONY: pgxn-sync-%
 pgxntool-sync-%:
-	git subtree pull -P pgxntool $($@)
+	git subtree pull -P pgxntool --squash -m "Pull pgxntool from $($@)" $($@)
 
 pgxntool-sync-release	:= git@github.com:decibel/pgxntool.git release
-pgxntool-sync-dev		:= git@github.com:decibel/pgxntool.git master
-pgxntool-sync-local		:= ../pgxntool master
+pgxntool-sync-local		:= ../pgxntool release
+# NOTE! If you pull anything other than release you're likely to get a bunch of
+# stuff you don't want in your history!
 pgxntool-sync: pgxntool-sync-release
 
+ifndef PGXNTOOL_NO_PGXS_INCLUDE
 include $(PGXS)
+endif
