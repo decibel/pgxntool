@@ -31,6 +31,7 @@ safecp () {
 }
 
 safecp pgxntool/_.gitignore .gitignore
+safecp pgxntool/META.in.json META.in.json
 
 safecreate Makefile include pgxntool/base.mk
 
