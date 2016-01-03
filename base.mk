@@ -91,14 +91,6 @@ META.json: META.in.json pgxntool/build_meta.sh
 	pgxntool/build_meta.sh $< $@
 distclean:
 	rm -f META.json
-#
-# pgtap
-#
-.PHONY: pgtap
-pgtap: $(DESTDIR)$(datadir)/extension/pgtap.control
-
-$(DESTDIR)$(datadir)/extension/pgtap.control:
-	pgxn install pgtap
 
 #
 # testdeps
@@ -163,4 +155,17 @@ pgxntool-sync: pgxntool-sync-release
 
 ifndef PGXNTOOL_NO_PGXS_INCLUDE
 include $(PGXS)
-endif
+#
+# pgtap
+#
+# NOTE! This currently MUST be after PGXS! The problem is that
+# $(DESTDIR)$(datadir) aren't being expanded. This can probably change after
+# the META handling stuff is it's own makefile.
+#
+.PHONY: pgtap
+pgtap: $(DESTDIR)$(datadir)/extension/pgtap.control
+
+$(DESTDIR)$(datadir)/extension/pgtap.control:
+	pgxn install pgtap
+
+endif # fndef PGXNTOOL_NO_PGXS_INCLUDE
