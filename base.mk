@@ -48,9 +48,12 @@ DOCS         = $(wildcard doc/*.asc)
 ifeq ($(strip $(DOCS)),)
 DOCS =# Set to NUL so PGXS doesn't puke
 endif
-TESTS        = $(wildcard test/sql/*.sql)
-REGRESS      = $(patsubst test/sql/%.sql,%,$(TESTS))
-REGRESS_OPTS = --inputdir=test --load-language=plpgsql
+
+TESTDIR		?= test
+TESTOUT		?= $(TESTDIR)
+TESTS        = $(wildcard $(TESTDIR)/sql/*.sql)
+REGRESS      = $(patsubst $(TESTDIR)/sql/%.sql,%,$(TESTS))
+REGRESS_OPTS = --inputdir=$(TESTDIR) --outputdir=$(TESTOUT) --load-language=plpgsql
 #
 # Uncoment the MODULES line if you are adding C files
 # to your extention.
@@ -100,11 +103,11 @@ testdeps: pgtap
 
 .PHONY: test
 test: clean testdeps install installcheck
-	@if [ -r regression.diffs ]; then cat regression.diffs; fi
+	@if [ -r $(TESTOUT)/regression.diffs ]; then cat $(TESTOUT)/regression.diffs; fi
 
 .PHONY: results
 results: test
-	rsync -rlpgovP results/ test/expected
+	rsync -rlpgovP $(TESTOUT)/results/ $(TESTDIR)/expected
 
 rmtag:
 	git fetch origin # Update our remotes
