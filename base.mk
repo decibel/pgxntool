@@ -51,7 +51,7 @@ endif
 
 TESTDIR		?= test
 TESTOUT		?= $(TESTDIR)
-TESTS       += $(wildcard $(TESTDIR)/sql/*.source)
+TESTS       += $(wildcard $(TESTDIR)/input/*.source)
 TESTS       += $(wildcard $(TESTDIR)/sql/*.sql)
 TEST_FILES   = $(patsubst $(TESTDIR)/sql/%,%,$(TESTS))
 REGRESS		 = $(subst .source,,$(subst .sql,,$(TEST_FILES)))
