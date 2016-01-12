@@ -41,11 +41,15 @@ git add META.json
 mkdir -p sql test src
 
 cd test
-safecreate deps.sql '-- Add any test dependency statements here'
+safecreate deps.sql '-- You will need to delete this if you do not want to use pgTap!
+CREATE EXTENSION pgtap IN SCHEMA tap;
+
+-- Add any test dependency statements here
+'
 [ -d pgxntool ] || ln -s ../pgxntool/test/pgxntool .
 git add pgxntool
 
-echo "If you won't be creating C code then you should:
+echo "If you won't be creating C code then you can:
 
 rmdir src
 
