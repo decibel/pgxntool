@@ -49,6 +49,7 @@ ifeq ($(strip $(DOCS)),)
 DOCS =# Set to NUL so PGXS doesn't puke
 endif
 
+PG_CONFIG   ?= pg_config
 TESTDIR		?= test
 TESTOUT		?= $(TESTDIR)
 TESTS       += $(wildcard $(TESTDIR)/input/*.source)
@@ -57,7 +58,6 @@ TEST_FILES   = $(patsubst $(TESTDIR)/sql/%,%,$(TESTS))
 REGRESS		 = $(subst .source,,$(subst .sql,,$(TEST_FILES)))
 REGRESS_OPTS = --inputdir=$(TESTDIR) --outputdir=$(TESTOUT) --load-language=plpgsql
 MODULES      = $(patsubst %.c,%,$(wildcard src/*.c))
-PG_CONFIG    = pg_config
 ifeq ($(strip $(MODULES)),)
 MODULES =# Set to NUL so PGXS doesn't puke
 endif
