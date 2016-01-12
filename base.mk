@@ -56,11 +56,7 @@ TESTS       += $(wildcard $(TESTDIR)/sql/*.sql)
 TEST_FILES   = $(patsubst $(TESTDIR)/sql/%,%,$(TESTS))
 REGRESS		 = $(subst .source,,$(subst .sql,,$(TEST_FILES)))
 REGRESS_OPTS = --inputdir=$(TESTDIR) --outputdir=$(TESTOUT) --load-language=plpgsql
-#
-# Uncoment the MODULES line if you are adding C files
-# to your extention.
-#
-#MODULES      = $(patsubst %.c,%,$(wildcard src/*.c))
+MODULES      = $(patsubst %.c,%,$(wildcard src/*.c))
 PG_CONFIG    = pg_config
 
 EXTRA_CLEAN  = $(wildcard ../$(PGXN)-*.zip) $(EXTENSION_VERSION_FILES)
