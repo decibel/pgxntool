@@ -116,6 +116,7 @@ rmtag:
 	@test -z "$$(git branch --list $(PGXNVERSION))" || git branch -d $(PGXNVERSION)
 	@test -z "$$(git branch --list -r origin/$(PGXNVERSION))" || git push --delete origin $(PGXNVERSION)
 
+# TODO: Don't puke if tag already exists *and is the same*
 tag:
 	@test -z "$$(git status --porcelain)" || (echo 'Untracked changes!'; echo; git status; exit 1)
 	git branch $(PGXNVERSION)
