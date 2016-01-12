@@ -58,6 +58,9 @@ REGRESS		 = $(subst .source,,$(subst .sql,,$(TEST_FILES)))
 REGRESS_OPTS = --inputdir=$(TESTDIR) --outputdir=$(TESTOUT) --load-language=plpgsql
 MODULES      = $(patsubst %.c,%,$(wildcard src/*.c))
 PG_CONFIG    = pg_config
+ifeq ($(strip $(MODULES)),)
+MODULES =# Set to NUL so PGXS doesn't puke
+endif
 
 EXTRA_CLEAN  = $(wildcard ../$(PGXN)-*.zip) $(EXTENSION_VERSION_FILES)
 
