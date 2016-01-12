@@ -52,10 +52,9 @@ endif
 PG_CONFIG   ?= pg_config
 TESTDIR		?= test
 TESTOUT		?= $(TESTDIR)
-TEST_FILES	+= $(wildcard $(TESTDIR)/input/*.source)
-TEST_FILES	+= $(wildcard $(TESTDIR)/sql/*.sql)
-REGRESS		 = $(pathsubst $(TESTDIR)/input/%.source,%,$(patsubst $(TESTDIR)/sql/%.sql,%,$(TESTS)))
-#REGRESS		 = $(subst .source,,$(subst .sql,,$(TEST_FILES)))
+TEST_FILES	+= $(notdir $(wildcard $(TESTDIR)/input/*.source))
+TEST_FILES	+= $(notdir $(wildcard $(TESTDIR)/sql/*.sql))
+REGRESS		 = $(sort $(subst .source,,$(subst .sql,,$(TEST_FILES)))) # Sort is to get unique list
 REGRESS_OPTS = --inputdir=$(TESTDIR) --outputdir=$(TESTOUT) --load-language=plpgsql
 MODULES      = $(patsubst %.c,%,$(wildcard src/*.c))
 ifeq ($(strip $(MODULES)),)
