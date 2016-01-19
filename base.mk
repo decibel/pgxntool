@@ -153,7 +153,9 @@ pgxntool-sync-%:
 	git subtree pull -P pgxntool --squash -m "Pull pgxntool from $($@)" $($@)
 
 pgxntool-sync-release	:= git@github.com:decibel/pgxntool.git release
+pgxntool-sync-stable	:= git@github.com:decibel/pgxntool.git stable
 pgxntool-sync-local		:= ../pgxntool release
+pgxntool-sync-local-stable	:= ../pgxntool stable
 # NOTE! If you pull anything other than release you're likely to get a bunch of
 # stuff you don't want in your history!
 pgxntool-sync: pgxntool-sync-release
