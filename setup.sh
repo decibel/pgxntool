@@ -5,6 +5,8 @@ trap 'echo "Error on line ${LINENO}"' ERR
 
 [ -d .git ] || git init
 
+git diff --cached --exit-code || {echo "Git repository is not clean; please commit and try again." >&2; exit 1}
+
 safecreate () {
     file=$1
     shift
