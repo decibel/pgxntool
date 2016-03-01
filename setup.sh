@@ -49,6 +49,7 @@ cd test
 safecp ../pgxntool/test/deps.sql deps.sql
 [ -d pgxntool ] || ln -s ../pgxntool/test/pgxntool .
 git add pgxntool
+git status
 
 echo "If you won't be creating C code then you can:
 
