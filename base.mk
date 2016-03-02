@@ -88,7 +88,7 @@ DATA += $(wildcard *.control)
 
 # Don't have installcheck bomb on error
 .IGNORE: installcheck
-installcheck: $(TEST_RESULT_FILES) $(TEST_OUT_FILES)
+installcheck: $(TESTDIR)/sql $(TEST_RESULT_FILES) $(TEST_OUT_FILES)
 
 #
 # META.json
@@ -105,13 +105,11 @@ distclean:
 .PHONY: testdeps
 testdeps: pgtap
 
-$(TESTDIR)/expected:
+$(TESTDIR)/sql $(TESTDIR)/expected $(TESTDIR)/out:
 	@mkdir -p $@
+
 $(TEST_RESULT_FILES): $(TESTDIR)/expected
 	@touch $@
-
-$(TESTDIR)/out:
-	@mkdir -p $@
 $(TEST_OUT_FILES): $(TESTDIR)/out
 	@touch $@
 
