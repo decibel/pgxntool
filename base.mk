@@ -52,9 +52,12 @@ endif
 PG_CONFIG   ?= pg_config
 TESTDIR		?= test
 TESTOUT		?= $(TESTDIR)
-TEST_FILES	+= $(notdir $(wildcard $(TESTDIR)/input/*.source))
-TEST_FILES	+= $(notdir $(wildcard $(TESTDIR)/sql/*.sql))
-REGRESS		 = $(sort $(subst .source,,$(subst .sql,,$(TEST_FILES)))) # Sort is to get unique list
+TEST_SOURCE_FILES	+= $(wildcard $(TESTDIR)/input/*.source)
+TEST_OUT_FILES		 = $(subst input,output,$(TEST_SOURCE_FILES))
+TEST_SQL_FILES		+= $(wildcard $(TESTDIR)/sql/*.sql)
+TEST_RESULT_FILES	 = $(patsubst $(TESTDIR)/sql/%.sql,$(TESTDIR)/expected/%.out,$(TEST_SQL_FILES))
+TEST_FILES	 = $(TEST_SOURCE_FILES) $(TEST_SQL_FILES)
+REGRESS		 = $(sort $(notdir $(subst .source,,$(TEST_FILES:.sql=)))) # Sort is to get unique list
 REGRESS_OPTS = --inputdir=$(TESTDIR) --outputdir=$(TESTOUT) --load-language=plpgsql
 MODULES      = $(patsubst %.c,%,$(wildcard src/*.c))
 ifeq ($(strip $(MODULES)),)
@@ -85,6 +88,7 @@ DATA += $(wildcard *.control)
 
 # Don't have installcheck bomb on error
 .IGNORE: installcheck
+installcheck: $(TEST_RESULT_FILES) $(TEST_OUT_FILES)
 
 #
 # META.json
@@ -100,6 +104,16 @@ distclean:
 #
 .PHONY: testdeps
 testdeps: pgtap
+
+$(TESTDIR)/expected:
+	@mkdir -p $@
+$(TEST_RESULT_FILES): $(TESTDIR)/expected
+	@touch $@
+
+$(TESTDIR)/out:
+	@mkdir -p $@
+$(TEST_OUT_FILES): $(TESTDIR)/out
+	@touch $@
 
 .PHONY: test
 test: clean testdeps install installcheck
@@ -138,9 +152,6 @@ forcedist: forcetag dist
 no_targets__:
 list:
 	sh -c "$(MAKE) -p no_targets__ | awk -F':' '/^[a-zA-Z0-9][^\$$#\/\\t=]*:([^=]|$$)/ {split(\$$1,A,/ /);for(i in A)print A[i]}' | grep -v '__\$$' | sort"
-
-.PHONY: help
-help:	list
 
 # To use this, do make print-VARIABLE_NAME
 print-%	: ; $(info $* is $(flavor $*) variable set to "$($*)") @true
