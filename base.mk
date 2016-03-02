@@ -105,7 +105,9 @@ distclean:
 .PHONY: testdeps
 testdeps: pgtap
 
-$(TESTDIR)/sql $(TESTDIR)/expected $(TESTDIR)/output:
+$(TESTDIR)/sql $(TESTDIR)/expected:
+	@mkdir -p $@
+$(TESTDIR)/output: $(TESTDIR)/expected
 	@mkdir -p $@
 
 $(TEST_RESULT_FILES): $(TESTDIR)/expected
