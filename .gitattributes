@@ -1,3 +1,2 @@
 .gitattributes export-ignore
-/pgxntool/README.asc export-ignore
 README.asc export-ignore
