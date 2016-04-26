@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -o errexit -o errtrace -o pipefail
 trap 'echo "Error on line ${LINENO}"' ERR
