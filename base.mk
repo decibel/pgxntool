@@ -70,14 +70,17 @@ installcheck: $(TEST_RESULT_FILES) $(TEST_OUT_FILES)
 .PHONY: testdeps
 testdeps: pgtap
 
-$(TESTDIR)/expected:
+$(TESTDIR)/sql:
 	@mkdir -p $@
-$(TEST_RESULT_FILES): $(TESTDIR)/expected
+
+$(TESTDIR)/expected/:
+	@mkdir -p $@
+$(TEST_RESULT_FILES): $(TESTDIR)/expected/
 	@touch $@
 
-$(TESTDIR)/out:
+$(TESTDIR)/output/:
 	@mkdir -p $@
-$(TEST_OUT_FILES): $(TESTDIR)/out
+$(TEST_OUT_FILES): $(TESTDIR)/output/ $(TESTDIR)/sql/
 	@touch $@
 
 .PHONY: test
