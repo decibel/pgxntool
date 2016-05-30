@@ -5,7 +5,7 @@ PGXNTOOL_DIR := pgxntool
 #
 PGXNTOOL_distclean += META.json
 META.json: META.in.json $(PGXNTOOL_DIR)/build_meta.sh
-	$(PGXNTOOL_DIR)/build_meta.sh $< $@
+	@$(PGXNTOOL_DIR)/build_meta.sh $< $@
 
 #
 # meta.mk
@@ -13,7 +13,7 @@ META.json: META.in.json $(PGXNTOOL_DIR)/build_meta.sh
 # Buind meta.mk, which contains info from META.json, and include it
 PGXNTOOL_distclean += meta.mk
 meta.mk: META.json Makefile $(PGXNTOOL_DIR)/base.mk $(PGXNTOOL_DIR)/meta.mk.sh
-	$(PGXNTOOL_DIR)/meta.mk.sh $< >$@
+	@$(PGXNTOOL_DIR)/meta.mk.sh $< >$@
 
 -include meta.mk
 
