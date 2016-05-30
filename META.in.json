@@ -12,7 +12,8 @@
     "X_comment": "I've tried to put things in a logical order. Comments welcome at https://github.com/decibel/pgxntool/issues!",
 
     "X_comment": "REQUIRED. Name of distribution.",
-    "name": "DISTRIBUTION NAME",
+    "X_comment": "Note! Distribution names currently can't contain spaces.",
+    "name": "DISTRIBUTION_NAME",
 
     "X_comment": "REQUIRED. Version of the distribution. http://pgxn.org/spec/#version",
     "version": "0.1.0",
