@@ -7,6 +7,7 @@
     "X_comment": "",
     "X_comment": "Keys marked REQUIRED or Optional are what you'd expect. Keys marked Unusual are keys you don't normally need to use.",
     "X_comment": "The pgxntool Makefile will strip out empty keys to produce a working META.json, so it's fine to leave them here.",
+    "X_comment": "NOTE: Don't get too cute with reformatting this file... some of the processing against it doesn't use a full JSON parser",
     "X_comment": "",
     "X_comment": "I've tried to put things in a logical order. Comments welcome at https://github.com/decibel/pgxntool/issues!",
 
