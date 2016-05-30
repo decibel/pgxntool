@@ -80,7 +80,7 @@ $(TEST_RESULT_FILES): $(TESTDIR)/expected/
 
 $(TESTDIR)/output/:
 	@mkdir -p $@
-$(TEST_OUT_FILES): $(TESTDIR)/output/ $(TESTDIR)/sql/
+$(TEST_OUT_FILES): $(TESTDIR)/output/ $(TESTDIR)/expected/ $(TESTDIR)/sql/
 	@touch $@
 
 .PHONY: test
