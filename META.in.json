@@ -33,8 +33,8 @@
     "license": "postgresql",
 
     "X_comment": "REQUIRED. Specifies extensions contained in this distribution. Each key is the name of an extension. http://pgxn.org/spec/#provides",
+    "X_comment": "Note! Extension names currently can't contain spaces.",
     "provides": {
-        "X_comment": "Note! Extension names currently can't contain spaces.",
         "EXTENSION_NAME": {
             "X_comment": "REQUIRED. File containing extension.",
             "file": "sql/file.sql",
