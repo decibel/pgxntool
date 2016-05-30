@@ -27,7 +27,7 @@ REQUIRED='abstract maintainer license provides name version'
 #usage: VAR=$(getkey foo.bar) #get value of "bar" contained within "foo"
 #       VAR=$(getkey foo[4].bar) #get value of "bar" contained in the array "foo" on position 4
 #       VAR=$(getkey [4].foo) #get value of "foo" contained in the root unnamed array on position 4
-function getkey {
+function _getkey {
     #reformat key string (parameter) to what JSON.sh uses
     KEYSTRING=$(sed -e 's/\[/\"\,/g' -e 's/^\"\,/\[/g' -e 's/\]\./\,\"/g' -e 's/\./\"\,\"/g' -e '/^\[/! s/^/\[\"/g' -e '/\]$/! s/$/\"\]/g' <<< "$@")
     #extract the key value
@@ -66,11 +66,19 @@ function getarrlen {
 
 JSON_PARSED=$(cat $META | $JSON_SH -l)
 
+function getkey {
+  out=$(_getkey "$@")
+  [ -n "$out" ] || die 2 "key $@ not found in $META"
+  echo $out
+}
 
 # Handle meta-spec specially
 spec_version=`getkey meta-spec.version`
-[ -n "$spec_version" ] || die 2 "key meta-spec.spec_version not found in $META"
 [ "$spec_version" == "1.0.0" ] || die 2 "Unknown meta-spec/version: $PGXN_meta-spec_version"
+
+echo "PGXN := $(getkey name)"
+echo "PGXNVERSION := $(getkey version)"
+echo
 
 provides=$(getkeys provides | sed -e 's/\["provides","//' -e 's/",".*//' | uniq)
 for ext in $provides; do
