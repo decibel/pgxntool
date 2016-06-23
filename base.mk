@@ -17,7 +17,11 @@ meta.mk: META.json Makefile $(PGXNTOOL_DIR)/base.mk $(PGXNTOOL_DIR)/meta.mk.sh
 
 -include meta.mk
 
+<<<<<<< HEAD
 DATA         = $(EXTENSION_VERSION_FILES)
+=======
+DATA         = $(EXTENSION_VERSION_FILES) $(wildcard sql/*--*--*.sql)
+>>>>>>> release
 DOCS         = $(wildcard doc/*.asc)
 ifeq ($(strip $(DOCS)),)
 DOCS =# Set to NUL so PGXS doesn't puke
@@ -132,7 +136,7 @@ print-%	: ; $(info $* is $(flavor $*) variable set to "$($*)") @true
 # variables. pgxntool-sync-release is an example of this.
 .PHONY: pgxn-sync-%
 pgxntool-sync-%:
-	git subtree pull -P pgxntool --squash -m "Pull pgxntool from $($@)" $($@)
+	git subtree pull -P pgxntool --squash --strategy=recursive --strategy-option=theirs -m "Pull pgxntool from $($@)" $($@)
 pgxntool-sync: pgxntool-sync-release
 
 # DANGER! Use these with caution. They may add extra crap to your history and
