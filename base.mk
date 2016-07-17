@@ -132,7 +132,7 @@ print-%	: ; $(info $* is $(flavor $*) variable set to "$($*)") @true
 # variables. pgxntool-sync-release is an example of this.
 .PHONY: pgxn-sync-%
 pgxntool-sync-%:
-	git subtree pull -P pgxntool --squash --strategy=recursive --strategy-option=theirs -m "Pull pgxntool from $($@)" $($@)
+	git subtree pull -P pgxntool --squash -m "Pull pgxntool from $($@)" $($@)
 pgxntool-sync: pgxntool-sync-release
 
 # DANGER! Use these with caution. They may add extra crap to your history and
