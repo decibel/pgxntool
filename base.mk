@@ -66,32 +66,42 @@ DATA += $(wildcard *.control)
 installcheck: $(TEST_RESULT_FILES) $(TEST_OUT_FILES)
 
 #
-# testdeps
+# TEST SUPPORT
 #
+# These targets are meant to make running tests easier.
+
+# make test: run any test dependencies, then do a `make install installcheck`.
+# If regressions are found, it will output them.
+.PHONY: test
+test: clean testdeps install installcheck
+	@if [ -r $(TESTOUT)/regression.diffs ]; then cat $(TESTOUT)/regression.diffs; fi
+
+# make results: runs `make test` and copy all result files to expected
+# DO NOT RUN THIS UNLESS YOU'RE CERTAIN ALL YOUR TESTS ARE PASSING!
+.PHONY: results
+results: test
+	rsync -rlpgovP $(TESTOUT)/results/ $(TESTDIR)/expected
+
+# testdeps is a generic dependency target that you can add targets to
 .PHONY: testdeps
 testdeps: pgtap
 
+# These targets ensure all the relevant directories exist
 $(TESTDIR)/sql:
 	@mkdir -p $@
-
 $(TESTDIR)/expected/:
 	@mkdir -p $@
 $(TEST_RESULT_FILES): $(TESTDIR)/expected/
 	@touch $@
-
 $(TESTDIR)/output/:
 	@mkdir -p $@
 $(TEST_OUT_FILES): $(TESTDIR)/output/ $(TESTDIR)/expected/ $(TESTDIR)/sql/
 	@touch $@
 
-.PHONY: test
-test: clean testdeps install installcheck
-	@if [ -r $(TESTOUT)/regression.diffs ]; then cat $(TESTOUT)/regression.diffs; fi
 
-.PHONY: results
-results: test
-	rsync -rlpgovP $(TESTOUT)/results/ $(TESTDIR)/expected
-
+#
+# TAGGING SUPPORT
+#
 rmtag:
 	git fetch origin # Update our remotes
 	@test -z "$$(git branch --list $(PGXNVERSION))" || git branch -d $(PGXNVERSION)
