@@ -49,7 +49,7 @@ MAJORVER 	 = $(shell echo $(PGVERSION) | awk '{print 10 * $$1}' | cut -d . -f1)
 # Function for testing a condition
 test		 = $(shell test $(1) $(2) $(3) && echo yes || echo no)
 
-GE91		 = $(call test, $(MAJORVER), -ge, 9.1)
+GE91		 = $(call test, $(MAJORVER), -ge, 91)
 
 ifeq ($(GE91),yes)
 all: $(EXTENSION_VERSION_FILES)
