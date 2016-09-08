@@ -40,10 +40,11 @@ endif
 
 EXTRA_CLEAN  = $(wildcard ../$(PGXN)-*.zip) $(EXTENSION_VERSION_FILES)
 
-# Get Postgres version, as well as major (9.4, etc) version. Remove '.' from MAJORVER.
+# Get Postgres version, as well as major (9.4, etc) version.
 # NOTE! In at least some versions, PGXS defines VERSION, so we intentionally don't use that variable
 PGVERSION 	 = $(shell $(PG_CONFIG) --version | awk '{sub("(alpha|beta|devel).*", ""); print $$2}')
-MAJORVER 	 = $(shell echo $(PGVERSION) | cut -d . -f1,2 | tr -d .)
+# Multiply by 10 is easiest way to handle version 10+
+MAJORVER 	 = $(shell echo $(PGVERSION) | awk -F'.' '{if ($$1 >= 10) print $$1 * 10; else print $$1 * 10 + $$2}')
 
 # Function for testing a condition
 test		 = $(shell test $(1) $(2) $(3) && echo yes || echo no)
