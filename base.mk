@@ -167,6 +167,7 @@ include $(PGXS)
 # the META handling stuff is it's own makefile.
 #
 .PHONY: pgtap
+installcheck: pgtap
 pgtap: $(DESTDIR)$(datadir)/extension/pgtap.control
 
 $(DESTDIR)$(datadir)/extension/pgtap.control:
