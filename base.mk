@@ -18,7 +18,7 @@ meta.mk: META.json Makefile $(PGXNTOOL_DIR)/base.mk $(PGXNTOOL_DIR)/meta.mk.sh
 -include meta.mk
 
 DATA         = $(EXTENSION_VERSION_FILES) $(wildcard sql/*--*--*.sql)
-DOCS         += $(wildcard doc/*.adoc)
+DOCS         += $(wildcard doc/*.adoc doc/*.asc doc/*.asciidoc)
 ifeq ($(strip $(DOCS)),)
 DOCS =# Set to NUL so PGXS doesn't puke
 endif
