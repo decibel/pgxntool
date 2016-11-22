@@ -20,7 +20,7 @@ meta.mk: META.json Makefile $(PGXNTOOL_DIR)/base.mk $(PGXNTOOL_DIR)/meta.mk.sh
 DATA         = $(EXTENSION_VERSION_FILES) $(wildcard sql/*--*--*.sql)
 DOC_DIRS	+= doc
 # NOTE: if this is empty it gets forcibly defined to NUL before including PGXS
-DOCS		+= $(foreach dir,$(DOC_DIRS),$(dir)/*)
+DOCS		+= $(foreach dir,$(DOC_DIRS),$(wildcard $(dir)/*))
 
 # Find all asciidoc targets
 ASCIIDOC ?= $(shell which asciidoctor 2>/dev/null || which asciidoc 2>/dev/null)
@@ -196,6 +196,11 @@ distclean:
 	rm -f $(PGXNTOOL_distclean)
 
 ifndef PGXNTOOL_NO_PGXS_INCLUDE
+
+ifeq (,$(strip $(DOCS)))
+DOCS =# Set to NUL so PGXS doesn't puke
+endif
+
 include $(PGXS)
 #
 # pgtap
@@ -212,7 +217,3 @@ $(DESTDIR)$(datadir)/extension/pgtap.control:
 	pgxn install pgtap
 
 endif # fndef PGXNTOOL_NO_PGXS_INCLUDE
-
-ifeq ($(strip $(DOCS)),)
-DOCS =# Set to NUL so PGXS doesn't puke
-endif
