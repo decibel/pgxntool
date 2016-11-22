@@ -127,10 +127,16 @@ $(foreach ext,$(ASCIIDOC_EXTS),$(eval $(call ASCIIDOC_template,$(ext))))
 # Create the html target regardless of whether we have asciidoc, and make it a dependency of dist
 html: $(ASCIIDOC_HTML)
 dist: html
+
 # But don't add it as an install or test dependency unless we do have asciidoc
 ifneq (,$(strip $(ASCIIDOC)))
-install: html
-installcheck: html
+
+# Need to do this so install & co will pick up ALL targets. Unfortunately this can result in some duplication.
+DOCS += $(ASCIIDOC_HTML)
+
+# Also need to add html as a dep to all (which will get picked up by install & installcheck
+all: html
+
 endif # ASCIIDOC
 
 .PHONY: docclean
