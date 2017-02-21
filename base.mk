@@ -224,6 +224,6 @@ installcheck: pgtap
 pgtap: $(DESTDIR)$(datadir)/extension/pgtap.control
 
 $(DESTDIR)$(datadir)/extension/pgtap.control:
-	pgxn install pgtap
+	pgxn install pgtap --sudo
 
 endif # fndef PGXNTOOL_NO_PGXS_INCLUDE
